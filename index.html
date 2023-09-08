@@ -6,39 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>Conjetura de Collatz</title>
-    <style>
-        .resultat {
-            color: green;
-        }
 
-        .ciclo {
-            color: red;
-        }
+    <style>
+
     </style>
 </head>
 
 <body>
     <section class="section">
         <h1 class="title has-text-centered">Conjetura de Collatz</h1>
-        <h3 class="subtitle">
+        <div class="block">
+            <p>La conjetura de Collatz es un problema matemático en el que empiezas con un número entero positivo y, si es par, lo divides por 2; si es impar, lo multiplicas por 3 y le sumas 1. Repites esto y la conjetura dice que eventualmente llegarás al número 1. Una vez que llegas al 1, la secuencia sigue repitiéndose en un ciclo infinito: 1 -> 4 -> 2 -> 1, y así sucesivamente. Aunque este patrón se observa, nadie ha demostrado aún que esto sea cierto para todos los números.</p>
+        </div>
+
+        <h3 class="subtitle mt-6 has-text-centered">
             Introduce el número entero positivo que quieres comprobar:
         </h3>
-        <input id="valor" class="input" type="number" placeholder="Text input" pattern="">
-        <div class="container is-flex is-justify-content-center">
-            <div class="control">
-                <button id="btn" class="button is-primary m-2">Submit</button>
+        <div class="container">
+            <form>
+                <div class="field">
+                    <div class="control">
+                        <input id="valor" class="input has-text-centered" type="number"
+                            placeholder="Introduce el valor">
+                    </div>
+                </div>
+            </form>
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <button id="btn" class="button is-primary m-2">Calcular</button>
+                </p>
+                <p class="control">
+                    <button id="reset" class="button is-primary m-2 is-danger ">Reset</button>
+                </p>
             </div>
-            <div class="control">
-                <button id="reset" class="button is-primary m-2 is-danger ">Reset</button>
+        </div>
+
+        <div class="container is-flex is-flex-direction-column">
+            <div id="resultado" class="container m-2 has-text-centered has-background-light"></div>
+            <div class="columns">
+                <div class="column is-5 is-offset-4">
+                    <div id="operaciones" class="block m-2 ml-6 has-text-left"></div>
+                </div>
             </div>
         </div>
-        <div id="resultado" class="block m-2">
 
-        </div>
-        <div id="operaciones" class="block m-2">
-
-        </div>
     </section>
+    <footer class="footer has-background-white">
+        <div class="content has-text-centered ">
+            <p>
+                © 2023 Ramon Lage. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
 
     <script>
         const contenedor_operaciones = document.getElementById('operaciones');
@@ -56,24 +75,21 @@
                 } else {
                     while (continuar) {
                         if (num == 1) {
-                            contenedor_resultado.innerHTML += `<p>Entra en el<span class='ciclo'> CICLO 1-4-2-1</span> en <strong>${operacion - 1}</strong> operaciones: </p>`;
+                            contenedor_resultado.innerHTML += `<p >Entra en el<span class="has-text-danger"> CICLO 1-4-2-1</span> en <strong>${operacion - 1}</strong> operaciones: </p>`;
                             continuar = false;
                         } else {
                             if (num % 2 == 0) {
                                 num = num / 2;
-                                contenedor_operaciones.innerHTML += `<p>Operación: ${operacion}==>   /2 = <span class='resultat'>${num}</span> </p>`;
+                                contenedor_operaciones.innerHTML += `<p>Operación: <span class="has-text-weight-bold">${operacion}</span> ==>   /2 = <span class="has-text-link-dark has-text-weight-bold">${num}</span> </p>`;
 
                             } else {
-
                                 num = (num * 3) + 1
-                                contenedor_operaciones.innerHTML += `<p>Operación: ${operacion}==>    x3 + 1 = <span class='resultat'>${num}</span></p>`
+                                contenedor_operaciones.innerHTML += `<p>Operación: <span class="has-text-weight-bold">${operacion}</span>==>    x3 + 1 = <span class="has-text-link-dark has-text-weight-bold">${num}</span></p>`
                             }
                         }
                         operacion++;
                     }
                 }
-
-
             }
             if (e.target.matches('#reset')) {
                 contenedor_operaciones.innerHTML = '';
@@ -83,9 +99,6 @@
                 operacion = 1;
             }
         })
-
-
-
     </script>
 </body>
 
