@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>Conjetura de Collatz</title>
+    <style>
+        .resultat {
+            color: green;
+        }
+
+        .ciclo {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <h1 class="title has-text-centered">Conjetura de Collatz</h1>
+        <h3 class="subtitle">
+            Introduce el número entero positivo que quieres comprobar:
+        </h3>
+        <input id="valor" class="input" type="number" placeholder="Text input" pattern="">
+        <div class="container is-flex is-justify-content-center">
+            <div class="control">
+                <button id="btn" class="button is-primary m-2">Submit</button>
+            </div>
+            <div class="control">
+                <button id="reset" class="button is-primary m-2 is-danger ">Reset</button>
+            </div>
+        </div>
+        <div id="resultado" class="block m-2">
+
+        </div>
+        <div id="operaciones" class="block m-2">
+
+        </div>
+    </section>
+
+    <script>
+        const contenedor_operaciones = document.getElementById('operaciones');
+        const contenedor_resultado = document.getElementById('resultado');
+        let operacion = 1;
+        let continuar = true;
+
+
+        document.addEventListener('click', (e) => {
+
+            if (e.target.matches('#btn')) {
+                let num = document.getElementById('valor').value;
+                if (num <= 0) {
+                    alert('El valor introducido no es válido, pulse RESET para nuevo intento.')
+                } else {
+                    while (continuar) {
+                        if (num == 1) {
+                            contenedor_resultado.innerHTML += `<p>Entra en el<span class='ciclo'> CICLO 1-4-2-1</span> en <strong>${operacion - 1}</strong> operaciones: </p>`;
+                            continuar = false;
+                        } else {
+                            if (num % 2 == 0) {
+                                num = num / 2;
+                                contenedor_operaciones.innerHTML += `<p>Operación: ${operacion}==>   /2 = <span class='resultat'>${num}</span> </p>`;
+
+                            } else {
+
+                                num = (num * 3) + 1
+                                contenedor_operaciones.innerHTML += `<p>Operación: ${operacion}==>    x3 + 1 = <span class='resultat'>${num}</span></p>`
+                            }
+                        }
+                        operacion++;
+                    }
+                }
+
+
+            }
+            if (e.target.matches('#reset')) {
+                contenedor_operaciones.innerHTML = '';
+                contenedor_resultado.innerHTML = '';
+                document.getElementById('valor').value = '';
+                continuar = true
+                operacion = 1;
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>
