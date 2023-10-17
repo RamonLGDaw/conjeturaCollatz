@@ -6,10 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>Conjetura de Collatz</title>
-
-    <style>
-
-    </style>
 </head>
 
 <body>
@@ -52,7 +48,7 @@
 
     </section>
     <footer class="footer has-background-white">
-        <div class="content has-text-centered ">
+        <div class="content has-text-centered">
             <p>
                 © 2023 Ramon Lage. Todos los derechos reservados.
             </p>
@@ -60,6 +56,7 @@
     </footer>
 
     <script>
+
         const contenedor_operaciones = document.getElementById('operaciones');
         const contenedor_resultado = document.getElementById('resultado');
         let operacion = 1;
@@ -91,6 +88,7 @@
                     }
                 }
             }
+            //btn reset
             if (e.target.matches('#reset')) {
                 contenedor_operaciones.innerHTML = '';
                 contenedor_resultado.innerHTML = '';
