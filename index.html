@@ -32,8 +32,8 @@
             <form>
                 <div class="field">
                     <div class="control">
-                        <input id="inputNumber" class="input has-text-centered" type="number"
-                            placeholder="Enter the value">
+                       <input id="inputNumber" class="input has-text-centered" type="text" inputmode="numeric" placeholder="Enter the value">
+
                     </div>
                 </div>
             </form>
@@ -66,23 +66,29 @@
     </footer>
 
     <script>
-    const operationsContainer = document.getElementById('operations');
-    const resultContainer = document.getElementById('result');
-    let operationCount = 1;
-    let continueProcess = true;
+        const operationsContainer = document.getElementById('operations');
+        const resultContainer = document.getElementById('result');
+        let operationCount = 1;
+        let continueProcess = true;
 
-    
-    const calculateCollatz = () => {
-        let num = document.getElementById('inputNumber').value;
-        let initialValue = num;
-        if (num <= 0) {
-            alert('The entered value is not valid, press RESET to try again.');
-        } else {
+        const calculateCollatz = () => {
+            let num = document.getElementById('inputNumber').value;
+            let initialValue = num;
+
+            
+            if (!Number.isInteger(+num) || num <= 0) {
+                alert('Please enter a valid positive integer!');
+                return;  
+            }
+
+            
             operationsContainer.innerHTML = '';
             resultContainer.innerHTML = '';
             document.getElementById('inputNumber').value = '';
             continueProcess = true;
             operationCount = 1;
+
+            
             while (continueProcess) {
                 if (num == 1) {
                     resultContainer.innerHTML += `<p class="m-3">The number <strong>${initialValue}</strong> entered the<i> 1-4-2-1 CYCLE</i> in <strong>${operationCount - 1}</strong> operations: </p>`;
@@ -98,33 +104,31 @@
                 }
                 operationCount++;
             }
-        }
-    };
+        };
 
-    document.addEventListener('click', (e) => {
-        
-        if (e.target.matches('#calculateButton')) {
-            calculateCollatz();
-        }
+        document.addEventListener('click', (e) => {
 
-        
-        if (e.target.matches('#resetButton')) {
-            operationsContainer.innerHTML = '';
-            resultContainer.innerHTML = '';
-            document.getElementById('inputNumber').value = '';
-            continueProcess = true;
-            operationCount = 1;
-        }
-    });
+            if (e.target.matches('#calculateButton')) {
+                calculateCollatz();
+            }
 
-    
-    document.getElementById('inputNumber').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();  
-            calculateCollatz();
-        }
-    });
-</script>
+            if (e.target.matches('#resetButton')) {
+                operationsContainer.innerHTML = '';
+                resultContainer.innerHTML = '';
+                document.getElementById('inputNumber').value = '';
+                continueProcess = true;
+                operationCount = 1;
+            }
+        });
+
+        document.getElementById('inputNumber').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calculateCollatz();
+            }
+        });
+    </script>
+
 
 </body>
 
