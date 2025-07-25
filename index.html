@@ -1,47 +1,57 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <title>Conjetura de Collatz</title>
+    <title>Collatz Conjecture</title>
 </head>
 
 <body>
     <section class="section">
-        <h1 class="title has-text-centered">Conjetura de Collatz</h1>
-        <div class="block">
-            <p>La conjetura de Collatz es un problema matemático en el que empiezas con un número entero positivo y, si es par, lo divides por 2; si es impar, lo multiplicas por 3 y le sumas 1. Repites esto y la conjetura dice que eventualmente llegarás al número 1. Una vez que llegas al 1, la secuencia sigue repitiéndose en un ciclo infinito: 1 -> 4 -> 2 -> 1, y así sucesivamente. Aunque este patrón se observa, nadie ha demostrado aún que esto sea cierto para todos los números.</p>
+        <h1 class="title has-text-centered">Collatz Conjecture</h1>
+        <div class="container">
+            <div class="block">
+                <p>The Collatz conjecture is a mathematical problem where you start with a positive integer, and if it's
+                    even, you divide it by 2; if it's odd, you multiply it by 3 and add 1. You repeat this process, and
+                    the
+                    conjecture says that eventually you will reach the number 1. Once you reach 1, the sequence
+                    continues
+                    repeating in an infinite cycle: 1 -> 4 -> 2 -> 1, and so on. Although this pattern is observed, no
+                    one
+                    has yet proven that this is true for all numbers.</p>
+            </div>
         </div>
 
+
         <h3 class="subtitle mt-6 has-text-centered">
-            Introduce el número entero positivo que quieres comprobar:
+            Enter the positive integer you want to check:
         </h3>
         <div class="container">
             <form>
                 <div class="field">
                     <div class="control">
-                        <input id="valor" class="input has-text-centered" type="number"
-                            placeholder="Introduce el valor">
+                        <input id="inputNumber" class="input has-text-centered" type="number"
+                            placeholder="Enter the value">
                     </div>
                 </div>
             </form>
             <div class="field is-grouped is-grouped-centered">
                 <p class="control">
-                    <button id="btn" class="button is-primary m-2">Calcular</button>
+                    <button id="calculateButton" class="button is-primary m-2">Calculate</button>
                 </p>
                 <p class="control">
-                    <button id="reset" class="button is-primary m-2 is-danger ">Reset</button>
+                    <button id="resetButton" class="button is-primary m-2 is-danger ">Reset</button>
                 </p>
             </div>
         </div>
 
         <div class="container is-flex is-flex-direction-column">
-            <div id="resultado" class="container m-2 has-text-centered has-background-light"></div>
+            <div id="result" class="container m-2 has-text-centered has-background-light"></div>
             <div class="columns">
                 <div class="column is-5 is-offset-4">
-                    <div id="operaciones" class="block m-2 ml-6 has-text-left"></div>
+                    <div id="operations" class="block m-2 ml-6 has-text-left"></div>
                 </div>
             </div>
         </div>
@@ -50,54 +60,72 @@
     <footer class="footer has-background-white">
         <div class="content has-text-centered">
             <p>
-                © 2023 Ramon Lage. Todos los derechos reservados.
+                © 2023 Ramon Lage.
             </p>
         </div>
     </footer>
 
     <script>
+    const operationsContainer = document.getElementById('operations');
+    const resultContainer = document.getElementById('result');
+    let operationCount = 1;
+    let continueProcess = true;
 
-        const contenedor_operaciones = document.getElementById('operaciones');
-        const contenedor_resultado = document.getElementById('resultado');
-        let operacion = 1;
-        let continuar = true;
-
-
-        document.addEventListener('click', (e) => {
-
-            if (e.target.matches('#btn')) {
-                let num = document.getElementById('valor').value;
-                if (num <= 0) {
-                    alert('El valor introducido no es válido, pulse RESET para nuevo intento.')
+    
+    const calculateCollatz = () => {
+        let num = document.getElementById('inputNumber').value;
+        let initialValue = num;
+        if (num <= 0) {
+            alert('The entered value is not valid, press RESET to try again.');
+        } else {
+            operationsContainer.innerHTML = '';
+            resultContainer.innerHTML = '';
+            document.getElementById('inputNumber').value = '';
+            continueProcess = true;
+            operationCount = 1;
+            while (continueProcess) {
+                if (num == 1) {
+                    resultContainer.innerHTML += `<p class="m-3">The number <strong>${initialValue}</strong> entered the<i> 1-4-2-1 CYCLE</i> in <strong>${operationCount - 1}</strong> operations: </p>`;
+                    continueProcess = false;
                 } else {
-                    while (continuar) {
-                        if (num == 1) {
-                            contenedor_resultado.innerHTML += `<p >Entra en el<span class="has-text-danger"> CICLO 1-4-2-1</span> en <strong>${operacion - 1}</strong> operaciones: </p>`;
-                            continuar = false;
-                        } else {
-                            if (num % 2 == 0) {
-                                num = num / 2;
-                                contenedor_operaciones.innerHTML += `<p>Operación: <span class="has-text-weight-bold">${operacion}</span> ==>   /2 = <span class="has-text-link-dark has-text-weight-bold">${num}</span> </p>`;
-
-                            } else {
-                                num = (num * 3) + 1
-                                contenedor_operaciones.innerHTML += `<p>Operación: <span class="has-text-weight-bold">${operacion}</span>==>    x3 + 1 = <span class="has-text-link-dark has-text-weight-bold">${num}</span></p>`
-                            }
-                        }
-                        operacion++;
+                    if (num % 2 == 0) {
+                        num = num / 2;
+                        operationsContainer.innerHTML += `<p>Operation: <span class="has-text-weight-bold">${operationCount}</span> ==>   /2 = <span class="has-text-link-dark has-text-weight-bold">${num}</span> </p>`;
+                    } else {
+                        num = (num * 3) + 1;
+                        operationsContainer.innerHTML += `<p>Operation: <span class="has-text-weight-bold">${operationCount}</span>==>    x3 + 1 = <span class="has-text-link-dark has-text-weight-bold">${num}</span></p>`;
                     }
                 }
+                operationCount++;
             }
-            //btn reset
-            if (e.target.matches('#reset')) {
-                contenedor_operaciones.innerHTML = '';
-                contenedor_resultado.innerHTML = '';
-                document.getElementById('valor').value = '';
-                continuar = true
-                operacion = 1;
-            }
-        })
-    </script>
+        }
+    };
+
+    document.addEventListener('click', (e) => {
+        
+        if (e.target.matches('#calculateButton')) {
+            calculateCollatz();
+        }
+
+        
+        if (e.target.matches('#resetButton')) {
+            operationsContainer.innerHTML = '';
+            resultContainer.innerHTML = '';
+            document.getElementById('inputNumber').value = '';
+            continueProcess = true;
+            operationCount = 1;
+        }
+    });
+
+    
+    document.getElementById('inputNumber').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();  
+            calculateCollatz();
+        }
+    });
+</script>
+
 </body>
 
 </html>
